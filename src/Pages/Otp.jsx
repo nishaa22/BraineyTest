@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaAngleLeft } from "react-icons/fa6";
+import { loginWithOtp } from "../util/func";
 
 const Otp = () => {
   const navigate = useNavigate();
@@ -25,9 +26,11 @@ const Otp = () => {
     }
   };
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
+    console.log("Called")
     const enteredOtp = otp.join("");
-    console.log("OTP:", enteredOtp);
+    const data = await loginWithOtp(enteredOtp);
+    console.log(data)
   };
 
   return (
@@ -61,9 +64,9 @@ const Otp = () => {
         </div>
 
         <button
-          onClick={handleVerify}
+          onClick={() => handleVerify()}
           disabled={otp.join("").length !== 6}
-          className={`w-full py-3 rounded-xl font-medium transition text-white
+          className={`w-full py-3 cursor-pointer rounded-xl font-medium transition text-white
             ${otp.join("").length === 6
               ? "bg-[#FF6D6A] hover:bg-[#ff5c59]"
               : "bg-gray-300 cursor-not-allowed"
