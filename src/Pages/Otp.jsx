@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaAngleLeft } from "react-icons/fa6";
 import { loginWithOtp } from "../util/func";
+import { registerUser } from './../util/func';
 
 const Otp = () => {
   const navigate = useNavigate();
@@ -27,10 +28,23 @@ const Otp = () => {
   };
 
   const handleVerify = async () => {
-    console.log("Called")
     const enteredOtp = otp.join("");
     const data = await loginWithOtp(enteredOtp);
+    if (data) {
+      navigate("/dashboard")
+    }
     console.log(data)
+  };
+
+  const handleResendCode = async () => {
+    try {
+      const res = await registerUser({
+        phone: localStorage.getItem("phone"),
+        dial_code: "+91",
+      });
+    } catch (err) {
+      console.log("Error:", err);
+    }
   };
 
   return (
@@ -77,7 +91,7 @@ const Otp = () => {
 
         <p className="text-sm text-center text-gray-600 mt-4">
           Didn’t receive code?
-          <button className="text-blue-600 ml-1 font-medium hover:underline">
+          <button type="submit" className="cursor-pointer text-blue-600 ml-1 font-medium hover:underline" onClick={() => handleResendCode()}>
             Resend
           </button>
         </p>

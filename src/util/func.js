@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const registerUser = async ({ phone, dial_code }) => {
+export const registerUser = async ({ phone, dial_code = "+91" }) => {
   try {
     const formData = new URLSearchParams();
     formData.append("phone", phone);
@@ -47,3 +47,28 @@ export const loginWithOtp = async (otp, dialCode = "+91") => {
     return null;
   }
 };
+
+export const fetchRestaurants = async () => {
+  try {
+    const response = await fetch(
+      "https://staging.fastor.ai/v1/m/restaurant?city_id=118",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch restaurants");
+    }
+
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+

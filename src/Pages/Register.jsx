@@ -11,6 +11,7 @@ const Register = () => {
   const handleMobileChange = (e) => {
     const value = e.target.value.replace(/\D/g, "");
     setMobile(value);
+    localStorage.setItem("phone", value)
   };
 
   const handleSendCode = async () => {
@@ -44,15 +45,6 @@ const Register = () => {
         </p>
 
         <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden mb-6">
-          <select
-            value={dialCode}
-            onChange={(e) => setDialCode(e.target.value)}
-            className="px-3 py-3 bg-gray-100 text-sm outline-none"
-          >
-            <option value="+91">IN +91</option>
-            <option value="+1">US +1</option>
-          </select>
-
           <input
             type="tel"
             value={mobile}
